@@ -3,6 +3,7 @@ const mongoose=require('mongoose');
 const path=require('path');
 const app=express();
 const port=3000;
+const Campground=require('./models/campground')
 
 mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp');
 const db=mongoose.connection;
@@ -16,6 +17,12 @@ app.set('views',path.join(__dirname,'views'))
 
 app.get('/',(req,res)=>{
     res.render('home');
+});
+
+app.get('/makecampground',async(req,res)=>{
+    const camp=new Campground({title:'My Backyard',description:'cheap campaging!'});
+    await camp.save();
+    res.send(camp);
 });
 
 
